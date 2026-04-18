@@ -1,0 +1,10 @@
+# video endtime must be configured
+00:00:00    00:00:03    video
+
+# initial configures
+00:00:00    00:00:00    time        2026-04-30 00:00:00 +0900
+00:00:00    00:00:00    latitude    35      # degrees, positive for north
+00:00:00    00:00:00    longitude   135     # degrees, positive for east
+00:00:00    00:00:00    azimuth     0       # degrees, south = 0
+00:00:00    00:00:00    elevation   30      # degrees
+00:00:00    00:00:00    fov         120     # degrees
