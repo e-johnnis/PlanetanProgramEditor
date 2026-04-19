@@ -10,6 +10,7 @@ namespace ppe {
 
         az.release();
         eq.release();
+        ecl.release();
     }
 
 
