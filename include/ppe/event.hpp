@@ -18,19 +18,25 @@ namespace ppe {
     template <typename T>
     class ChangeValueEvent : public Event {
     public:
-        ChangeValueEvent(double, double, T*, T);
+        ChangeValueEvent(double, double, T*, T, int);
         ~ChangeValueEvent() override {};
         int call(double) override;
     protected:
         T* _target = nullptr;
         T _value = 0;
         T _initValue = -1;
+        int _changeType = CHANGE_LINEAR;
     };
 
     template <typename T>
-    ChangeValueEvent<T>::ChangeValueEvent(double start, double end, T* target, T value) : Event(start, end) {
+    ChangeValueEvent<T>::ChangeValueEvent(
+        double start, double end,
+        T* target, T value,
+        int changeType
+    ) : Event(start, end) {
         _target = target;
         _value = value;
+        _changeType = changeType;
     }
 
     template <typename T>
@@ -43,7 +49,7 @@ namespace ppe {
             _initValue = *_target;
             return 0;
         }else {
-            double level = (frameTime - _startTime) / (_endTime - _startTime);
+            T level = (T)getLevel((frameTime - _startTime) / (_endTime - _startTime), _changeType);
             *_target = level * _value + (1.0 - level) * _initValue;
             return 0;
         }

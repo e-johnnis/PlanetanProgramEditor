@@ -15,8 +15,7 @@ namespace ppe {
             double fx = 2.0 * (x / (double)(PPE_DIFFRACTION_SIZE-1) - 0.5);
             for(int y = 0; y < PPE_DIFFRACTION_SIZE; y++) {
                 double fy = 2.0 * (y / (double)(PPE_DIFFRACTION_SIZE-1) - 0.5);
-                double t = 1.0 - std::sqrt(fx * fx + fy * fy);
-                pdiff[x+y*PPE_DIFFRACTION_SIZE] = (t < 0) ? 0 : (float)(6.0 * std::pow(t, 5) - 15.0 * std::pow(t, 4) + 10.0 * std::pow(t, 3));
+                pdiff[x+y*PPE_DIFFRACTION_SIZE] = (float)getLevel(1.0 - std::sqrt(fx * fx + fy * fy), CHANGE_SMOOTHER);
             }
         }
 
@@ -128,77 +127,116 @@ namespace ppe {
             return ERROR_INVALID_FORMAT;
         }
 
-        if(!strcmp(ename, "video")) {
+        if(!std::strcmp(ename, "video")) {
             endTime = end;
-        }else if(!strcmp(ename, "time")) {
+        }else if(!std::strcmp(ename, "time")) {
             double value = 0;
             if(!parseDateTime(arg, &value)) return ERROR_INVALID_VALUE;
-            _events.push_back(new ChangeValueEvent<double>(start, end, &_status.simTime, value));
+            _events.push_back(new ChangeValueEvent<double>(start, end, &_status.simTime, value, CHANGE_LINEAR));
         
-        }else if(!strcmp(ename, "latitude")) {
+        }else if(!std::strcmp(ename, "latitude")) {
+            char ctstr[16] { '\0' };
             float value = 0;
-            if(!sscanf(arg, "%f", &value)) return ERROR_INVALID_VALUE;
-            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.latitude, radians(value)));
+            int ctype = CHANGE_LINEAR;
+            if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
+            if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.latitude, radians(value), ctype));
         
         }else if(!strcmp(ename, "longitude")) {
+            char ctstr[16] { '\0' };
             float value = 0;
-            if(!sscanf(arg, "%f", &value)) return ERROR_INVALID_VALUE;
-            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.longitude, radians(value)));
+            int ctype = CHANGE_LINEAR;
+            if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
+            if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.longitude, radians(value), ctype));
         
         }else if(!strcmp(ename, "elevation")) {
+            char ctstr[16] { '\0' };
             float value = 0;
-            if(!sscanf(arg, "%f", &value)) return ERROR_INVALID_VALUE;
-            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.elevation, radians(value)));
+            int ctype = CHANGE_LINEAR;
+            if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
+            if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.elevation, radians(value), ctype));
         
         }else if(!strcmp(ename, "azimuth")) {
+            char ctstr[16] { '\0' };
             float value = 0;
-            if(!sscanf(arg, "%f", &value)) return ERROR_INVALID_VALUE;
-            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.azimuth, radians(value)));
+            int ctype = CHANGE_LINEAR;
+            if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
+            if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.azimuth, radians(value), ctype));
         
         }else if(!strcmp(ename, "fov")) {
+            char ctstr[16] { '\0' };
             float value = 0;
-            if(!sscanf(arg, "%f", &value)) return ERROR_INVALID_VALUE;
-            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.fov, radians(value)));
+            int ctype = CHANGE_LINEAR;
+            if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
+            if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.fov, radians(value), ctype));
         
         }else if(!strcmp(ename, "stars")) {
+            char ctstr[16] { '\0' };
             float value = 0;
-            if(!sscanf(arg, "%f", &value)) return ERROR_INVALID_VALUE;
-            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvStars, value));
+            int ctype = CHANGE_LINEAR;
+            if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
+            if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvStars, value, ctype));
         
         }else if(!strcmp(ename, "ground")) {
+            char ctstr[16] { '\0' };
             float value = 0;
-            if(!sscanf(arg, "%f", &value)) return ERROR_INVALID_VALUE;
-            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvGround, value));
+            int ctype = CHANGE_LINEAR;
+            if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
+            if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvGround, value, ctype));
         
         }else if(!strcmp(ename, "growRed")) {
+            char ctstr[16] { '\0' };
             float value = 0;
-            if(!sscanf(arg, "%f", &value)) return ERROR_INVALID_VALUE;
-            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvGrowRed, value));
+            int ctype = CHANGE_LINEAR;
+            if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
+            if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvGrowRed, value, ctype));
         
         }else if(!strcmp(ename, "growGreen")) {
+            char ctstr[16] { '\0' };
             float value = 0;
-            if(!sscanf(arg, "%f", &value)) return ERROR_INVALID_VALUE;
-            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvGrowGreen, value));
+            int ctype = CHANGE_LINEAR;
+            if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
+            if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvGrowGreen, value, ctype));
         
         }else if(!strcmp(ename, "growBlue")) {
+            char ctstr[16] { '\0' };
             float value = 0;
-            if(!sscanf(arg, "%f", &value)) return ERROR_INVALID_VALUE;
-            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvGrowBlue, value));
+            int ctype = CHANGE_LINEAR;
+            if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
+            if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvGrowBlue, value, ctype));
         
         }else if(!strcmp(ename, "twilightRed")) {
+            char ctstr[16] { '\0' };
             float value = 0;
-            if(!sscanf(arg, "%f", &value)) return ERROR_INVALID_VALUE;
-            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvTwilightRed, value));
+            int ctype = CHANGE_LINEAR;
+            if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
+            if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvTwilightRed, value, ctype));
         
         }else if(!strcmp(ename, "twilightGreen")) {
+            char ctstr[16] { '\0' };
             float value = 0;
-            if(!sscanf(arg, "%f", &value)) return ERROR_INVALID_VALUE;
-            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvTwilightGreen, value));
+            int ctype = CHANGE_LINEAR;
+            if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
+            if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvTwilightGreen, value, ctype));
         
         }else if(!strcmp(ename, "twilightBlue")) {
+            char ctstr[16] { '\0' };
             float value = 0;
-            if(!sscanf(arg, "%f", &value)) return ERROR_INVALID_VALUE;
-            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvTwilightBlue, value));
+            int ctype = CHANGE_LINEAR;
+            if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
+            if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvTwilightBlue, value, ctype));
         
         }else {
             return ERROR_UNKNOWN_EVENT;
@@ -280,7 +318,7 @@ namespace ppe {
                     _stars[i].magnitude
                 );
             }
-            std::printf("stars loaded: %d\n", _stars.size());
+            std::printf("stars loaded: %lu\n", _stars.size());
         #endif
 
         return SUCCESS;
@@ -322,7 +360,7 @@ namespace ppe {
                 for(int j = 0; j < 64; j++) std::printf(" %d", _constLines[i].stars[j]);
                 std::printf("\n");
             }
-            std::printf("constLines loaded: %d\n", _constLines.size());
+            std::printf("constLines loaded: %lu\n", _constLines.size());
         #endif
 
         return SUCCESS;

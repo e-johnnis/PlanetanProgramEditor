@@ -31,7 +31,7 @@ int main(int argc, char** argv) {
                 }
                 break;
             case 'f':
-                if(!std::sscanf(optarg, "%f", &config.fps)) {
+                if(!std::sscanf(optarg, "%lf", &config.fps)) {
                     std::fprintf(stderr, "[!] invalid value for video fps: %s\n", optarg);
                     return -1;
                 }

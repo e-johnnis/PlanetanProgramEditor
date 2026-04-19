@@ -25,6 +25,8 @@ namespace ppe {
                 return "unknown event";
             case ERROR_INVALID_VALUE:
                 return "invalid value";
+            case ERROR_UNKNOWN_ENUM:
+                return "unknown enum key";
         }
         return "unknown error";
     }
@@ -45,4 +47,24 @@ namespace ppe {
         *dateTime = std::difftime(mktime(&time19), TIME_EPOCH) / (24.0 * 3600.0);
         return 1;
     }
+
+    int parseChangeType(const char* str, int* changeType) {
+        if(!std::strcmp(str, "linear")) *changeType = CHANGE_LINEAR;
+        else if(!std::strcmp(str, "smoother")) *changeType = CHANGE_SMOOTHER;
+        else return 0;
+        return 1;
+    }
+
+    double getLevel(double x, int changeType) {
+        if(x < 0) return 0;
+        else if(x > 1) return 1;
+        else switch(changeType) {
+            case CHANGE_SMOOTHER:
+                return 6.0 * std::pow(x, 5) - 15.0 * std::pow(x, 4) + 10.0 * std::pow(x, 3);
+
+            default:
+                return x;
+        }
+    }
+
 }

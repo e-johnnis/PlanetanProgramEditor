@@ -5,7 +5,7 @@
 #include<opencv2/opencv.hpp>
 #include<vector>
 
-#define PPE_DIFFRACTION_SIZE 11
+#define PPE_DIFFRACTION_SIZE 15
 
 namespace ppe {
 
@@ -54,10 +54,10 @@ namespace ppe {
 
         double endTime = 0;
     private:
-        void _renderLayers(cv::Mat&) const;
+        void _renderLayers(cv::Mat&);
         void __overlay(cv::Mat&, const cv::Mat&) const;
         cv::Matx33f __calcLoc(cv::Mat&, cv::Mat&, cv::Mat&) const;
-        void __calcStars(const cv::Matx33f&) const;
+        void __calcStars(const cv::Matx33f&);
 
         GraphicsConfig _config = {};
         SimulationStatus _status = {};

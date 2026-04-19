@@ -3,7 +3,7 @@
 namespace ppe {
 
     // img: BGR float
-    void Graphics::_renderLayers(cv::Mat& img) const {
+    void Graphics::_renderLayers(cv::Mat& img) {
         cv::Mat az, eq, ecl;
         cv::Matx33f rot = __calcLoc(az, eq, ecl);
         __calcStars(rot);
@@ -32,7 +32,7 @@ namespace ppe {
     cv::Matx33f Graphics::__calcLoc(cv::Mat& az, cv::Mat& eq, cv::Mat& ecl) const {
         az.create(_config.height, _config.width, CV_32FC2);
         eq.create(_config.height, _config.width, CV_32FC2);
-        ecl.cerate(_config.height, _config.width, CV_32FC2);
+        ecl.create(_config.height, _config.width, CV_32FC2);
 
         int pov = std::min(_config.height, _config.width);
         float ph = std::tan(0.25 * _status.fov);
@@ -44,7 +44,7 @@ namespace ppe {
         cv::Matx33f xy2az = rotationZ(_status.azimuth) * rotationX(_status.elevation);
         cv::Matx33f az2eq = rotationZ(_status.longitude + (float)(_status.simTime * ROT_SIDEREAL)) * rotationX(_status.latitude - 0.5 * M_PI);
         cv::Matx33f eq2ecl = rotationZ((float)(-ROT_PRECESSION * _status.simTime)) * rotationX(-TILT_EARTH);
-        cv::Matx33f xy2ecl = eq2elc * az2eq * xy2az;
+        cv::Matx33f xy2ecl = eq2ecl * az2eq * xy2az;
 
         #pragma omp parallel for
         for(int i = 0; i < _imagePixels; i++) {
@@ -75,8 +75,7 @@ namespace ppe {
         return xy2ecl.inv();
     }
 
-    void Graphics::__calcStars(const cv::Matx33f& ecl2xy) const {
-        cv::Vec3f* pimg = reinterpret_cast<cv::Vec3f*>(img.data);
+    void Graphics::__calcStars(const cv::Matx33f& ecl2xy) {
         int pov = std::min(_config.height, _config.width);
         float ph = 2.0 / std::tan(0.25 * _status.fov);
 
@@ -86,8 +85,8 @@ namespace ppe {
             float phi = std::atan2(vxy[1], vxy[0]), theta = std::acos(vxy[2]);
             float tt = std::tan(theta);
 
-            _stars.position[0] = pov * (ph * std::cos(phi) * tt + 0.5);
-            _stars.position[1] = pov * (ph * std::sin(phi) * tt + 0.5);
+            _stars[i].x = pov * (ph * std::cos(phi) * tt + 0.5);
+            _stars[i].y = pov * (ph * std::sin(phi) * tt + 0.5);
         }
     }
 

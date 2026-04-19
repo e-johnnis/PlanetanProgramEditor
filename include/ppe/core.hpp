@@ -19,13 +19,21 @@ namespace ppe {
         ERROR_OPEN_FILE,
         ERROR_INVALID_FORMAT,
         ERROR_UNKNOWN_EVENT,
-        ERROR_INVALID_VALUE
+        ERROR_INVALID_VALUE,
+        ERROR_UNKNOWN_ENUM
+    };
+
+    enum ValueChangeType {
+        CHANGE_LINEAR = 0,
+        CHANGE_SMOOTHER
     };
 
     void getResourcePath(char*, const char*);
     const char* errorString(int);
     int parseTime(const char*, double*);
     int parseDateTime(const char*, double*);
+    int parseChangeType(const char*, int*);
+    double getLevel(double, int);
 }
 
 #endif
