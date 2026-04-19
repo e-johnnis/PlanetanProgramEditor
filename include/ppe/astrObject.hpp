@@ -10,6 +10,7 @@ namespace ppe {
         cv::Vec3f ecl;
         cv::Vec3f color;    // BGR
         float magnitude;
+        cv::Point position; // position on screen
     };
 
     struct ConstLine {
