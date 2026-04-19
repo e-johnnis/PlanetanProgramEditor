@@ -25,7 +25,10 @@ namespace ppe {
 
     enum ValueChangeType {
         CHANGE_LINEAR = 0,
-        CHANGE_SMOOTHER
+        CHANGE_SMOOTHER,
+        CHANGE_DOUBLE,
+        CHANGE_QUAD,
+        CHANGE_OCT
     };
 
     void getResourcePath(char*, const char*);

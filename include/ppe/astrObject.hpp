@@ -3,6 +3,8 @@
 
 #include<opencv2/opencv.hpp>
 
+#define PPE_CONSTLINE_STARS_MAX 64
+
 namespace ppe {
 
     struct Star {
@@ -16,7 +18,7 @@ namespace ppe {
 
     struct ConstLine {
         char name[4];
-        int stars[64];
+        int starIndices[PPE_CONSTLINE_STARS_MAX];
         float level = 0;
     };
 

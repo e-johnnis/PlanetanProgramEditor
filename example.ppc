@@ -8,3 +8,9 @@
 00:00:00    00:00:00    azimuth     0       # degrees, south = 0
 00:00:00    00:00:00    elevation   30      # degrees
 00:00:00    00:00:00    fov         120     # degrees
+00:00:00    00:00:00    stars       1
+00:00:00    00:00:00    ground      1
+
+# start program
+00:00:00    00:00:03    time        2026-04-30 01:00:00 +0900
+00:00:00    00:00:02    constLine   all 0.8   linear

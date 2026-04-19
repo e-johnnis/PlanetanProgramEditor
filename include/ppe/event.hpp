@@ -42,15 +42,15 @@ namespace ppe {
     template <typename T>
     int ChangeValueEvent<T>::call(double frameTime) {
         if(frameTime < _startTime) return 0;
-        else if(frameTime > _endTime) {
+        else if(frameTime >= _endTime) {
             *_target = _value;
             return 1;
-        }else if(_initValue < 0) {
-            _initValue = *_target;
-            return 0;
-        }else {
+        }else if(_initValue >= 0) {
             T level = (T)getLevel((frameTime - _startTime) / (_endTime - _startTime), _changeType);
             *_target = level * _value + (1.0 - level) * _initValue;
+            return 0;
+        }else {
+            _initValue = *_target;
             return 0;
         }
     }

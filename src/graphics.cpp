@@ -15,7 +15,7 @@ namespace ppe {
             double fx = 2.0 * (x / (double)(PPE_DIFFRACTION_SIZE-1) - 0.5);
             for(int y = 0; y < PPE_DIFFRACTION_SIZE; y++) {
                 double fy = 2.0 * (y / (double)(PPE_DIFFRACTION_SIZE-1) - 0.5);
-                pdiff[x+y*PPE_DIFFRACTION_SIZE] = (float)getLevel(1.0 - std::sqrt(fx * fx + fy * fy), CHANGE_SMOOTHER);
+                pdiff[x+y*PPE_DIFFRACTION_SIZE] = (float)getLevel(1.0 - std::sqrt(fx * fx + fy * fy), CHANGE_OCT);
             }
         }
 
@@ -82,9 +82,9 @@ namespace ppe {
         *nline = 0;
         *nevent = 0;
 
-        #ifdef DEBUG
+        /*#ifdef DEBUG
             std::printf("\n");
-        #endif
+        #endif*/
 
         while(!std::feof(fp)) {
             char line[PPE_CHAR_MAX] { '\0' };
@@ -97,9 +97,9 @@ namespace ppe {
             if(!std::strlen(line) || (line[0] == '\n')) continue;
             if(!std::sscanf(line, "%[^#\n]", cmd)) continue;
 
-            #ifdef DEBUG
+            /*#ifdef DEBUG
                 std::printf("line %3d: %s\n", *nline, cmd);
-            #endif
+            #endif*/
 
             if((err = addEvent(cmd))) {
                 std::fclose(fp);
@@ -243,12 +243,17 @@ namespace ppe {
             char ctstr[16] { '\0' };
             int ctype = CHANGE_LINEAR;
             float value = 0;
-            ConstLine* constLine = nullptr;
             if(std::sscanf(arg, "%s %f %s", name, &value, ctstr) < 2) return ERROR_INVALID_FORMAT;
-            if(!std::strlen(name) || !(constLine = __findConst(name))) return ERROR_UNKNOWN_ENUM;
+            if(!std::strlen(name)) return ERROR_INVALID_FORMAT;
             if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
-            _events.push_back(new ChangeValueEvent<float>(start, end, &(constLine->level), value, ctype));
-            
+            if(std::strcmp(name, "all")) {
+                ConstLine* constLine = nullptr;
+                if(!(constLine = __findConst(name))) return ERROR_UNKNOWN_ENUM;
+                _events.push_back(new ChangeValueEvent<float>(start, end, &(constLine->level), value, ctype));
+            }else for(int i = 0; i < _constLines.size(); i++) {
+                _events.push_back(new ChangeValueEvent<float>(start, end, &(_constLines[i].level), value, ctype));
+            }
+
         }else {
             return ERROR_UNKNOWN_EVENT;
         }
@@ -263,7 +268,7 @@ namespace ppe {
         FILE* fp = std::fopen(path, "r");
         if(!fp) return ERROR_OPEN_FILE;
 
-        cv::Matx33f eqj2ecl = rotationX(TILT_EARTH);
+        cv::Matx33f eqj2ecl = rotationX(-TILT_EARTH);
 
         while(!std::feof(fp)) {
             char line[PPE_CHAR_MAX] { '\0' };
@@ -278,36 +283,37 @@ namespace ppe {
                 &catalogNum, &ra, &dec, &magnitude, &spType
             ) < 5) continue;
 
-            Star star;
-
-            star.catalogNum = catalogNum;
-            star.ecl = cv::Vec3f(
+            cv::Vec3f veqj(
                 std::cos(ra) * std::cos(dec),
                 std::sin(ra) * std::cos(dec),
                 std::sin(dec)
             );
+
+            Star star;
+            star.catalogNum = catalogNum;
+            star.ecl = eqj2ecl * veqj;
             
             switch(spType) {
                 case 'O':
-                    star.color = cv::Vec3f(0x92/255.0, 0xB5/255.0, 0xFF/255.0);
+                    star.color = cv::Vec3f(0xFF/255.0, 0xB5/255.0, 0x92/255.0);
                     break;
                 case 'B':
-                    star.color = cv::Vec3f(0xA2/255.0, 0xC0/255.0, 0xFF/255.0);
+                    star.color = cv::Vec3f(0xFF/255.0, 0xC0/255.0, 0xA2/255.0);
                     break;
                 case 'A':
-                    star.color = cv::Vec3f(0xD5/255.0, 0xE0/255.0, 0xFF/255.0);
+                    star.color = cv::Vec3f(0xFF/255.0, 0xE0/255.0, 0xD5/255.0);
                     break;
                 case 'G':
-                    star.color = cv::Vec3f(0xFF/255.0, 0xED/255.0, 0xE3/255.0);
+                    star.color = cv::Vec3f(0xE3/255.0, 0xED/255.0, 0xFF/255.0);
                     break;
                 case 'K':
-                    star.color = cv::Vec3f(0xFF/255.0, 0xDA/255.0, 0xB5/255.0);
+                    star.color = cv::Vec3f(0xB5/255.0, 0xDA/255.0, 0xFF/255.0);
                     break;
                 case 'M':
-                    star.color = cv::Vec3f(0xFF/255.0, 0xB5/255.0, 0x6C/255.0);
+                    star.color = cv::Vec3f(0x6C/255.0, 0xB5/255.0, 0xFF/255.0);
                     break;
                 default: // F
-                    star.color = cv::Vec3f(0xF9/255.0, 0xF5/255.0, 0xFF/255.0);
+                    star.color = cv::Vec3f(0xFF/255.0, 0xF5/255.0, 0xF9/255.0);
                     break;
             }
 
@@ -318,7 +324,7 @@ namespace ppe {
 
         std::fclose(fp);
 
-        #ifdef DEBUG
+        /*#ifdef DEBUG
             std::printf("\n");
             for(int i = (_stars.size() - 10); i < _stars.size(); i++) {
                 std::printf(
@@ -330,7 +336,7 @@ namespace ppe {
                 );
             }
             std::printf("stars loaded: %lu\n", _stars.size());
-        #endif
+        #endif*/
 
         return SUCCESS;
     }
@@ -344,7 +350,6 @@ namespace ppe {
 
         ConstLine constLine;
         int ns = 0;
-        std::memset(&constLine, 0, sizeof(ConstLine));
 
         while(!std::feof(fp)) {
             char cnstr[16] { '\0' };
@@ -352,27 +357,43 @@ namespace ppe {
             if(!fscanf(fp, "%s", cnstr)) continue;
 
             if(sscanf(cnstr, "%d", &catalogNum)) {
-                constLine.stars[ns] = catalogNum;
+                if(catalogNum) {
+                    for(int i = 0; i < _stars.size(); i++) {
+                        if(catalogNum == _stars[i].catalogNum) {
+                            constLine.starIndices[ns] = i;
+                            break;
+                        }
+                    }
+                    if(constLine.starIndices[ns] < 0) {
+                        std::fclose(fp);
+                        
+                        #ifdef DEBUG
+                            std::fprintf(stderr, "star not found: %d\n", catalogNum);
+                        #endif
+
+                        return ERROR_INVALID_VALUE;
+                    }
+                }else constLine.starIndices[ns] = -1;
                 ns++;
             }else if(std::strlen(cnstr)) {
                 std::strcpy(constLine.name, cnstr);
+                for(int i = ns; i < PPE_CONSTLINE_STARS_MAX; i++) constLine.starIndices[i] = -1;
                 _constLines.push_back(constLine);
-                std::memset(&constLine, 0, sizeof(ConstLine));
                 ns = 0;
             }
         }
 
         std::fclose(fp);
 
-        #ifdef DEBUG
+        /*#ifdef DEBUG
             std::printf("\n");
             for(int i = (_constLines.size() - 10); i < _constLines.size(); i++) {
                 std::printf("%s", _constLines[i].name);
-                for(int j = 0; j < 64; j++) std::printf(" %d", _constLines[i].stars[j]);
+                for(int j = 0; j < 64; j++) std::printf(" %d", _constLines[i].starIndices[j]);
                 std::printf("\n");
             }
             std::printf("constLines loaded: %lu\n", _constLines.size());
-        #endif
+        #endif*/
 
         return SUCCESS;
     }
