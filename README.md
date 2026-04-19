@@ -1,4 +1,4 @@
-# PlanetanProgramEditor
+# Planetan: Program Editor
 Tool for create planetarium-like video program
 
 ## Install
