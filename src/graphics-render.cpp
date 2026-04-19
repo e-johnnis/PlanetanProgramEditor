@@ -91,4 +91,11 @@ namespace ppe {
         }
     }
 
+    ConstLine* Graphics::__findConst(const char* name) const {
+        for(int i = 0; i < _constLines.size(); i++) {
+            if(!std::strcmp(_constLines[i].name, name)) return &_constLines[i];
+        }
+        return nullptr;
+    }
+
 }

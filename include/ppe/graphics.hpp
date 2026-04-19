@@ -58,6 +58,7 @@ namespace ppe {
         void __overlay(cv::Mat&, const cv::Mat&) const;
         cv::Matx33f __calcLoc(cv::Mat&, cv::Mat&, cv::Mat&) const;
         void __calcStars(const cv::Matx33f&);
+        ConstLine* __findConst(const char*) const;
 
         GraphicsConfig _config = {};
         SimulationStatus _status = {};

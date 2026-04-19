@@ -142,7 +142,7 @@ namespace ppe {
             if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
             _events.push_back(new ChangeValueEvent<float>(start, end, &_status.latitude, radians(value), ctype));
         
-        }else if(!strcmp(ename, "longitude")) {
+        }else if(!std::strcmp(ename, "longitude")) {
             char ctstr[16] { '\0' };
             float value = 0;
             int ctype = CHANGE_LINEAR;
@@ -150,7 +150,7 @@ namespace ppe {
             if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
             _events.push_back(new ChangeValueEvent<float>(start, end, &_status.longitude, radians(value), ctype));
         
-        }else if(!strcmp(ename, "elevation")) {
+        }else if(!std::strcmp(ename, "elevation")) {
             char ctstr[16] { '\0' };
             float value = 0;
             int ctype = CHANGE_LINEAR;
@@ -158,7 +158,7 @@ namespace ppe {
             if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
             _events.push_back(new ChangeValueEvent<float>(start, end, &_status.elevation, radians(value), ctype));
         
-        }else if(!strcmp(ename, "azimuth")) {
+        }else if(!std::strcmp(ename, "azimuth")) {
             char ctstr[16] { '\0' };
             float value = 0;
             int ctype = CHANGE_LINEAR;
@@ -166,7 +166,7 @@ namespace ppe {
             if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
             _events.push_back(new ChangeValueEvent<float>(start, end, &_status.azimuth, radians(value), ctype));
         
-        }else if(!strcmp(ename, "fov")) {
+        }else if(!std::strcmp(ename, "fov")) {
             char ctstr[16] { '\0' };
             float value = 0;
             int ctype = CHANGE_LINEAR;
@@ -174,7 +174,7 @@ namespace ppe {
             if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
             _events.push_back(new ChangeValueEvent<float>(start, end, &_status.fov, radians(value), ctype));
         
-        }else if(!strcmp(ename, "stars")) {
+        }else if(!std::strcmp(ename, "stars")) {
             char ctstr[16] { '\0' };
             float value = 0;
             int ctype = CHANGE_LINEAR;
@@ -182,7 +182,7 @@ namespace ppe {
             if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
             _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvStars, value, ctype));
         
-        }else if(!strcmp(ename, "ground")) {
+        }else if(!std::strcmp(ename, "ground")) {
             char ctstr[16] { '\0' };
             float value = 0;
             int ctype = CHANGE_LINEAR;
@@ -190,7 +190,7 @@ namespace ppe {
             if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
             _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvGround, value, ctype));
         
-        }else if(!strcmp(ename, "growRed")) {
+        }else if(!std::strcmp(ename, "growRed")) {
             char ctstr[16] { '\0' };
             float value = 0;
             int ctype = CHANGE_LINEAR;
@@ -198,7 +198,7 @@ namespace ppe {
             if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
             _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvGrowRed, value, ctype));
         
-        }else if(!strcmp(ename, "growGreen")) {
+        }else if(!std::strcmp(ename, "growGreen")) {
             char ctstr[16] { '\0' };
             float value = 0;
             int ctype = CHANGE_LINEAR;
@@ -206,7 +206,7 @@ namespace ppe {
             if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
             _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvGrowGreen, value, ctype));
         
-        }else if(!strcmp(ename, "growBlue")) {
+        }else if(!std::strcmp(ename, "growBlue")) {
             char ctstr[16] { '\0' };
             float value = 0;
             int ctype = CHANGE_LINEAR;
@@ -214,7 +214,7 @@ namespace ppe {
             if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
             _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvGrowBlue, value, ctype));
         
-        }else if(!strcmp(ename, "twilightRed")) {
+        }else if(!std::strcmp(ename, "twilightRed")) {
             char ctstr[16] { '\0' };
             float value = 0;
             int ctype = CHANGE_LINEAR;
@@ -222,7 +222,7 @@ namespace ppe {
             if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
             _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvTwilightRed, value, ctype));
         
-        }else if(!strcmp(ename, "twilightGreen")) {
+        }else if(!std::strcmp(ename, "twilightGreen")) {
             char ctstr[16] { '\0' };
             float value = 0;
             int ctype = CHANGE_LINEAR;
@@ -230,7 +230,7 @@ namespace ppe {
             if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
             _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvTwilightGreen, value, ctype));
         
-        }else if(!strcmp(ename, "twilightBlue")) {
+        }else if(!std::strcmp(ename, "twilightBlue")) {
             char ctstr[16] { '\0' };
             float value = 0;
             int ctype = CHANGE_LINEAR;
@@ -238,6 +238,17 @@ namespace ppe {
             if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
             _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvTwilightBlue, value, ctype));
         
+        }else if(!std::strcmp(ename, "constLine")) {
+            char name[16] { '\0' };
+            char ctstr[16] { '\0' };
+            int ctype = CHANGE_LINEAR;
+            float value = 0;
+            ConstLine* constLine = nullptr;
+            if(std::sscanf(arg, "%s %f %s", name, &value, ctstr) < 2) return ERROR_INVALID_FORMAT;
+            if(!std::strlen(name) || !(constLine = __findConst(name))) return ERROR_UNKNOWN_ENUM;
+            if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
+            _events.push_back(new ChangeValueEvent<float>(start, end, &(constLine->level), value, ctype));
+            
         }else {
             return ERROR_UNKNOWN_EVENT;
         }

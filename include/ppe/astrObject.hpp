@@ -17,6 +17,7 @@ namespace ppe {
     struct ConstLine {
         char name[4];
         int stars[64];
+        float level = 0;
     };
 
 }
