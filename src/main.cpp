@@ -4,13 +4,15 @@
 #include<cmath>
 #include<unistd.h>
 
+#define DEFAULT_FILENAME "ppe-result.mov"
+
 void showHelp();
 
 int main(int argc, char** argv) {
     ppe::GraphicsConfig config = {};
     int verbose = 0;
 
-    std::sprintf(config.outputFileName, "ppe-result.avi");
+    std::sprintf(config.outputFileName, DEFAULT_FILENAME);
     config.width = 0;
 
     int copt = -1;
@@ -127,7 +129,7 @@ void showHelp() {
     std::printf("useage: ppe [options] input_file.ppc\n");
     std::printf("\n");
     std::printf("*** options ***\n");
-    std::printf("-o [string] : set output file name (*.avi)\n");
+    std::printf("-o [string] : set output file name (default=%s)\n", DEFAULT_FILENAME);
     std::printf("-f [float]  : set video fps (default=30)\n");
     std::printf("-p [int]    : set video height (default=1080)");
     std::printf("-w [int]    : set video width (default=height*16/9)");

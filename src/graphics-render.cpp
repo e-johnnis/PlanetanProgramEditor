@@ -114,7 +114,7 @@ namespace ppe {
             int x = _stars[i].x, y = _stars[i].y;
             if((x >= 0) && (x < _config.width) && (y >= 0) && (y < _config.height)) {
                 int ipx = x + y * _config.width;
-                float lmag = std::pow(10.0f, (4.0f - _stars[i].magnitude) / 4.0f) * _status.lvStars;
+                float lmag = std::pow(10.0f, (4.0f - _stars[i].magnitude) / 3.0f) * _status.lvStars;
                 for(int j = 0; j < 3; j++) pimg[ipx][j] += _stars[i].color[j] * lmag;
             }
         }

@@ -29,7 +29,7 @@ namespace ppe {
         #endif
 
         _videoWriter.open(
-            _config.outputFileName, cv::VideoWriter::fourcc('M', 'J', 'P', 'G'),
+            _config.outputFileName, 0x6765706A,
             _config.fps, cv::Size(_config.width, _config.height)
         );
     }

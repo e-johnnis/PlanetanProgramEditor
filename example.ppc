@@ -6,7 +6,7 @@
 00:00:00    00:00:00    latitude    35      # degrees, positive for north
 00:00:00    00:00:00    longitude   135     # degrees, positive for east
 00:00:00    00:00:00    azimuth     0       # degrees, south = 0
-00:00:00    00:00:00    elevation   30      # degrees
+00:00:00    00:00:00    elevation   45      # degrees
 00:00:00    00:00:00    fov         120     # degrees
 00:00:00    00:00:00    stars       1
 00:00:00    00:00:00    ground      1
