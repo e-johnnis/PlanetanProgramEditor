@@ -196,7 +196,7 @@ namespace ppe {
             int ctype = CHANGE_LINEAR;
             if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
             if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
-            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvGrowRed, value, ctype));
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvGrow[2], value, ctype));
         
         }else if(!std::strcmp(ename, "growGreen")) {
             char ctstr[16] { '\0' };
@@ -204,7 +204,7 @@ namespace ppe {
             int ctype = CHANGE_LINEAR;
             if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
             if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
-            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvGrowGreen, value, ctype));
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvGrow[1], value, ctype));
         
         }else if(!std::strcmp(ename, "growBlue")) {
             char ctstr[16] { '\0' };
@@ -212,7 +212,7 @@ namespace ppe {
             int ctype = CHANGE_LINEAR;
             if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
             if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
-            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvGrowBlue, value, ctype));
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvGrow[0], value, ctype));
         
         }else if(!std::strcmp(ename, "twilightRed")) {
             char ctstr[16] { '\0' };
@@ -220,7 +220,7 @@ namespace ppe {
             int ctype = CHANGE_LINEAR;
             if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
             if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
-            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvTwilightRed, value, ctype));
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvTwilight[2], value, ctype));
         
         }else if(!std::strcmp(ename, "twilightGreen")) {
             char ctstr[16] { '\0' };
@@ -228,7 +228,7 @@ namespace ppe {
             int ctype = CHANGE_LINEAR;
             if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
             if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
-            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvTwilightGreen, value, ctype));
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvTwilight[1], value, ctype));
         
         }else if(!std::strcmp(ename, "twilightBlue")) {
             char ctstr[16] { '\0' };
@@ -236,7 +236,55 @@ namespace ppe {
             int ctype = CHANGE_LINEAR;
             if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
             if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
-            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvTwilightBlue, value, ctype));
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvTwilight[0], value, ctype));
+        
+        }else if(!std::strcmp(ename, "skyRed")) {
+            char ctstr[16] { '\0' };
+            float value = 0;
+            int ctype = CHANGE_LINEAR;
+            if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
+            if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvSky[2], value, ctype));
+        
+        }else if(!std::strcmp(ename, "skyGreen")) {
+            char ctstr[16] { '\0' };
+            float value = 0;
+            int ctype = CHANGE_LINEAR;
+            if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
+            if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvSky[1], value, ctype));
+        
+        }else if(!std::strcmp(ename, "skyBlue")) {
+            char ctstr[16] { '\0' };
+            float value = 0;
+            int ctype = CHANGE_LINEAR;
+            if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
+            if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvSky[0], value, ctype));
+        
+        }else if(!std::strcmp(ename, "azGrid")) {
+            char ctstr[16] { '\0' };
+            float value = 0;
+            int ctype = CHANGE_LINEAR;
+            if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
+            if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvAzGrid, value, ctype));
+        
+        }else if(!std::strcmp(ename, "eqGrid")) {
+            char ctstr[16] { '\0' };
+            float value = 0;
+            int ctype = CHANGE_LINEAR;
+            if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
+            if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvEqGrid, value, ctype));
+        
+        }else if(!std::strcmp(ename, "ecliptic")) {
+            char ctstr[16] { '\0' };
+            float value = 0;
+            int ctype = CHANGE_LINEAR;
+            if(!std::sscanf(arg, "%f %s", &value, ctstr)) return ERROR_INVALID_VALUE;
+            if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
+            _events.push_back(new ChangeValueEvent<float>(start, end, &_status.lvEcliptic, value, ctype));
         
         }else if(!std::strcmp(ename, "constLine")) {
             char name[16] { '\0' };

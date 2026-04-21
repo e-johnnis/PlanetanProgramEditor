@@ -21,22 +21,22 @@ namespace ppe {
         unsigned long frames = 0;
 
         // observation
-        double simTime = 0;             // days from J2000.0
-        float latitude = 0;             // rad
-        float longitude = 0;            // rad
-        float elevation = 0;            // rad
-        float azimuth = 0;              // rad
-        float fov = 2.0 * M_PI / 3.0;   // rad
+        double simTime = 0;         // days from J2000.0
+        float latitude = 0;         // rad
+        float longitude = 0;        // rad
+        float elevation = 0;        // rad
+        float azimuth = 0;          // rad
+        float fov = M_PI;           // rad
 
         // rendering levels (0-1)
         float lvStars = 0;
         float lvGround = 1;
-        float lvGrowRed = 0;
-        float lvGrowGreen = 0;      
-        float lvGrowBlue = 0;
-        float lvTwilightRed = 0;
-        float lvTwilightGreen = 0;
-        float lvTwilightBlue = 0;
+        cv::Vec3f lvGrow = { 0, 0, 0 };
+        cv::Vec3f lvTwilight = { 0, 0, 0 };
+        cv::Vec3f lvSky = { 0.1, 0.03, 0 };
+        float lvAzGrid = 0;
+        float lvEqGrid = 0;
+        float lvEcliptic = 0;
     };
 
     class Graphics {
@@ -62,7 +62,8 @@ namespace ppe {
 
         void __renderStars(cv::Mat&) const;
         void __renderConstLines(cv::Mat&) const;
-        void __renderGround(cv::Mat&, const cv::Mat&) const;
+        void __renderGrids(cv::Mat&, const cv::Mat&, const cv::Mat&, const cv::Mat&) const;
+        void __renderSky(cv::Mat&, const cv::Mat&) const;
 
         GraphicsConfig _config = {};
         SimulationStatus _status = {};

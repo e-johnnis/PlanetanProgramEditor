@@ -4,7 +4,7 @@
 #ifdef DEBUG
     #define PPE_VERSION_STR "*** Planetan: Program Editor DEBUG ***"
 #else
-    #define PPE_VERSION_STR "*** Planetan: Program Editor ver.0.0.0.0 ***"
+    #define PPE_VERSION_STR "*** Planetan: Program Editor v0.0.0.0 ***"
 #endif
 
 #define PPE_CHAR_MAX 128

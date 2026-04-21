@@ -12,8 +12,9 @@ namespace ppe {
         cv::Vec3f ecl;
         cv::Vec3f color;    // BGR
         float magnitude;
-        int x;
-        int y;
+        int x = -1;
+        int y = -1;
+        cv::Vec3f levels;
     };
 
     struct ConstLine {

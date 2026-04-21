@@ -5,11 +5,17 @@
 00:00:00    00:00:00    time        2026-04-30 00:00:00 +0900
 00:00:00    00:00:00    latitude    35      # degrees, positive for north
 00:00:00    00:00:00    longitude   135     # degrees, positive for east
-00:00:00    00:00:00    azimuth     0       # degrees, south = 0
-00:00:00    00:00:00    elevation   45      # degrees
-00:00:00    00:00:00    fov         120     # degrees
+00:00:00    00:00:00    azimuth     0       # degrees, south = 0, CW
+00:00:00    00:00:00    elevation   40      # degrees
+00:00:00    00:00:00    fov         120      # degrees
 00:00:00    00:00:00    stars       1
 00:00:00    00:00:00    ground      1
+00:00:00    00:00:00    azGrid      0.5
+00:00:00    00:00:00    eqGrid      0.5
+00:00:00    00:00:00    ecliptic    0.8
+00:00:00    00:00:00    twilightRed     0.8
+00:00:00    00:00:00    twilightGreen   0.3
+00:00:00    00:00:00    twilightBlue    0.1
 
 # start program
 00:00:00    00:00:03    time        2026-04-30 01:00:00 +0900
