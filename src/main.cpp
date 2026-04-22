@@ -131,6 +131,8 @@ int main(int argc, char** argv) {
     }
     if(verbose) std::printf("\n");
 
+    graphics.release();
+
     return 0;
 }
 

@@ -34,7 +34,7 @@ namespace ppe {
     int parseTime(const char* str, double* time) {
         int hour = 0, min = 0;
         double sec = 0;
-        if(sscanf(str, "%d:%d:%lf", &hour, &min, &sec) < 3) return 0;
+        if(std::sscanf(str, "%d:%d:%lf", &hour, &min, &sec) < 3) return 0;
         else {
             *time = hour * 3600 + min * 60 + sec;
             return 1;
