@@ -2,9 +2,10 @@
 #include<cstdio>
 #include<cstring>
 #include<cmath>
+#include<ctime>
 #include<unistd.h>
 
-#define DEFAULT_FILENAME "ppe-result.mov"
+#define DEFAULT_FILENAME "ppe-result.avi"
 
 void showHelp();
 
@@ -106,6 +107,7 @@ int main(int argc, char** argv) {
     int emsec = (int)std::round(graphics.endTime * 1000.0) % 1000;
 
     double frameTime = 0;
+    time_t tmb = std::time(NULL);
 
     while(graphics.render(&frameTime)) if(verbose) {
         int hour = (int)frameTime / 3600;
@@ -113,10 +115,17 @@ int main(int argc, char** argv) {
         char sec = (int)frameTime % 60;
         short msec = (int)std::round(frameTime * 1000.0) % 1000;
 
+        time_t tma = std::time(NULL);
+        int tspan = (int)std::difftime(tma, tmb);
+        int tsh = tspan / 3600;
+        char tsm = (tspan % 3600) / 60;
+        char tss = tspan % 60;
+
         std::printf(
-            "\rexporting: %02d:%02d:%02d.%03d / %02d:%02d:%02d.%03d",
+            "\rexporting: %02d:%02d:%02d.%03d / %02d:%02d:%02d.%03d (Elapsed: %02d:%02d:%02d)",
             hour, min, sec, msec,
-            ehour, emin, esec, emsec
+            ehour, emin, esec, emsec,
+            tsh, tsm, tss
         );
         std::fflush(stdout);
     }

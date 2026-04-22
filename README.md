@@ -2,7 +2,7 @@
 Tool for create planetarium-like video program
 
 ## Install
-1. Install dependency
+1. Install dependencies
    ``` bash
    sudo apt install libopencv-dev ffmpeg
    ```

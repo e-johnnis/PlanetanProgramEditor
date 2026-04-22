@@ -167,11 +167,11 @@ namespace ppe {
 
         #pragma omp parallel for
         for(int i = 0; i < _imagePixels; i++) {
-            int iaz = (int)std::round(5.0f * degrees(paz[i][0])) % 30;
-            int iel = (int)std::round(5.0f * degrees(paz[i][1])) % 30;
-            int ira = (int)std::round(5.0f * degrees(peq[i][0])) % 30;
-            int idec = (int)std::round(5.0f * degrees(peq[i][1])) % 30;
-            int ilam = (int)std::round(5.0f * degrees(pecl[i][1]));
+            int iaz = (int)std::round(10.0f * degrees(paz[i][0])) % 150;
+            int iel = (int)std::round(10.0f * degrees(paz[i][1])) % 150;
+            int ira = (int)std::round(10.0f * degrees(peq[i][0])) % 150;
+            int idec = (int)std::round(10.0f * degrees(peq[i][1])) % 150;
+            int ilam = (int)std::round(10.0f * degrees(pecl[i][1]));
 
             for(int j = 0; j < 3; j++) {
                 if(!iaz || !iel) {

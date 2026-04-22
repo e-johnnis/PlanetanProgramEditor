@@ -7,7 +7,7 @@
 00:00:00    00:00:00    longitude   135     # degrees, positive for east
 00:00:00    00:00:00    azimuth     0       # degrees, south = 0, CW
 00:00:00    00:00:00    elevation   40      # degrees
-00:00:00    00:00:00    fov         120      # degrees
+00:00:00    00:00:00    fov         90      # degrees
 00:00:00    00:00:00    stars       1
 00:00:00    00:00:00    ground      1
 00:00:00    00:00:00    azGrid      0.5
