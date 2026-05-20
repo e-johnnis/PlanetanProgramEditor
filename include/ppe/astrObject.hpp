@@ -3,6 +3,7 @@
 
 #include<opencv2/opencv.hpp>
 
+#define PPE_STAR_NAME_MAX 16
 #define PPE_CONSTLINE_STARS_MAX 64
 
 namespace ppe {
@@ -15,6 +16,7 @@ namespace ppe {
         int x = -1;
         int y = -1;
         cv::Vec3f levels;
+        char name[PPE_STAR_NAME_MAX];
     };
 
     struct ConstLine {

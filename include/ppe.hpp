@@ -5,6 +5,7 @@
 #include<ppe/math.hpp>
 #include<ppe/event.hpp>
 #include<ppe/astrObject.hpp>
+#include<ppe/figure.hpp>
 #include<ppe/graphics.hpp>
 
 #endif

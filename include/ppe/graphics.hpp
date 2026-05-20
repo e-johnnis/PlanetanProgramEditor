@@ -59,6 +59,7 @@ namespace ppe {
         cv::Matx33f __calcLoc(cv::Mat&, cv::Mat&, cv::Mat&) const;
         void __calcStars(const cv::Matx33f&);
         ConstLine* __findConst(const char*);
+        int __findStarIdx(const char*);
 
         void __renderStars(cv::Mat&) const;
         void __renderConstLines(cv::Mat&) const;
@@ -74,6 +75,7 @@ namespace ppe {
         cv::Mat _diffractionKernel;
 
         std::vector<Event*> _events;
+        std::vector<Figure*> _figures;
 
         std::vector<Star> _stars;
         std::vector<ConstLine> _constLines;

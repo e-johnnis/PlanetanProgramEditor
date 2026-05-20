@@ -4,7 +4,7 @@ INSTALL_DIR:=${HOME}/.local/bin
 CFLAGS=-std=c++17 -fopenmp
 INCLUDES=-I./include -I/usr/include -I/usr/include/opencv4 -I/include
 LIBS=-L/usr/lib -L/lib -lopencv_core -lopencv_imgcodecs -lopencv_imgproc -lopencv_videoio
-SRCS=src/main.cpp src/graphics.cpp src/graphics-render.cpp src/event.cpp src/math.cpp src/core.cpp
+SRCS=src/main.cpp src/graphics.cpp src/graphics-render.cpp src/figure.cpp src/event.cpp src/math.cpp src/core.cpp
 
 .PHONY: clean debug build install
 

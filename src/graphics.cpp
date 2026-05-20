@@ -302,6 +302,53 @@ namespace ppe {
                 _events.push_back(new ChangeValueEvent<float>(start, end, &(_constLines[i].level), value, ctype));
             }
 
+        }else if(!std::strcmp(ename, "add")) {
+            char figtype[16] { '\0' };
+            char tag[PPE_FIGURE_TAG_MAX] { '\0' };
+            char figparams[PPE_CHAR_MAX] { '\0' };
+            if(std::sscanf(arg, "%s %s %[^\n]", figtype, tag, figparams) < 3) return ERROR_INVALID_FORMAT;
+            if(!std::strcmp(figtype, "line")) {
+                int startIdx = -1, endIdx = -1;
+                char star1[PPE_STAR_NAME_MAX];
+                char star2[PPE_STAR_NAME_MAX];
+                if(std::sscanf(figparams, "%s %s", star1, star2) < 2) return ERROR_INVALID_FORMAT;
+                if((startIdx = __findStarIdx(star1)) < 0) return ERROR_INVALID_VALUE;
+                if((endIdx = __findStarIdx(star2)) < 0) return ERROR_INVALID_VALUE;
+                _figures.push_back(new Line(tag, &_stars[startIdx], &_stars[endIdx]));
+            }
+
+        }else if(!std::strcmp(ename, "progress")) {
+            char tag[PPE_FIGURE_TAG_MAX] { '\0' };
+            char ctstr[16] { '\0' };
+            float value = 0;
+            int ctype = CHANGE_LINEAR;
+            int nfig = 0;
+            if(std::sscanf(arg, "%s %f %s", tag, &value, ctstr) < 2) return ERROR_INVALID_FORMAT;
+            if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
+            for(int i = 0; i < _figures.size(); i++) {
+                if(!_figures[i]->cmptag(tag)) {
+                    _events.push_back(new ChangeValueEvent<float>(start, end, &(_figures[i]->progress), value, ctype));
+                    nfig++;
+                }
+            }
+            if(!nfig) return ERROR_UNKNOWN_ENUM;
+
+        }else if(!std::strcmp(ename, "intensity")) {
+            char tag[PPE_FIGURE_TAG_MAX] { '\0' };
+            char ctstr[16] { '\0' };
+            float value = 0;
+            int ctype = CHANGE_LINEAR;
+            int nfig = 0;
+            if(std::sscanf(arg, "%s %f %s", tag, &value, ctstr) < 2) return ERROR_INVALID_FORMAT;
+            if(std::strlen(ctstr) && !parseChangeType(ctstr, &ctype)) return ERROR_UNKNOWN_ENUM;
+            for(int i = 0; i < _figures.size(); i++) {
+                if(!_figures[i]->cmptag(tag)) {
+                    _events.push_back(new ChangeValueEvent<float>(start, end, &(_figures[i]->level), value, ctype));
+                    nfig++;
+                }
+            }
+            if(!nfig) return ERROR_UNKNOWN_ENUM;
+
         }else {
             return ERROR_UNKNOWN_EVENT;
         }
@@ -320,6 +367,7 @@ namespace ppe {
 
         while(!std::feof(fp)) {
             char line[PPE_CHAR_MAX] { '\0' };
+            char name[PPE_STAR_NAME_MAX] { '\0' };
             int catalogNum;
             float magnitude;
             double ra, dec;
@@ -327,8 +375,8 @@ namespace ppe {
 
             fgets(line, PPE_CHAR_MAX-1, fp);
             if(sscanf(
-                line, "%d:%lf,%lf:%f:%c",
-                &catalogNum, &ra, &dec, &magnitude, &spType
+                line, "%d:%lf,%lf:%f:%c:%s",
+                &catalogNum, &ra, &dec, &magnitude, &spType, name
             ) < 5) continue;
 
             cv::Vec3f veqj(
@@ -366,6 +414,7 @@ namespace ppe {
             }
 
             star.magnitude = magnitude;
+            std::strcpy(star.name, name);
 
             _stars.push_back(star);
         }

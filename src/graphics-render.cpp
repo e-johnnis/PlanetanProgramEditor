@@ -10,6 +10,7 @@ namespace ppe {
 
         __renderStars(img);
         __renderConstLines(img);
+        for(int i = 0; i < _figures.size(); i++) _figures[i]->draw(img);
         __renderGrids(img, az, eq, ecl);
         __renderSky(img, az);
 
@@ -103,6 +104,15 @@ namespace ppe {
             if(!std::strcmp(_constLines[i].name, name)) return &_constLines[i];
         }
         return nullptr;
+    }
+
+    int Graphics::__findStarIdx(const char* name) {
+        int catalogNum = std::atoi(name);
+        for(int i = 0; i < _stars.size(); i++) {
+            if(catalogNum && catalogNum == _stars[i].catalogNum) return i;
+            else if(std::strlen(name) && !std::strcmp(name, _stars[i].name)) return i;
+        }
+        return -1;
     }
 
     // img: BGR float
