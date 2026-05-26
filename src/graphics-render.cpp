@@ -10,8 +10,8 @@ namespace ppe {
 
         __renderStars(img);
         __renderConstLines(img);
-        for(int i = 0; i < _figures.size(); i++) _figures[i]->draw(img);
         __renderGrids(img, az, eq, ecl);
+        __renderFigures(img);
         __renderSky(img, az);
 
         az.release();
@@ -198,6 +198,16 @@ namespace ppe {
                 }
             }
         }
+    }
+
+    // img: BGR float
+    void Graphics::__renderFigures(cv::Mat& img) const {
+        cv::Mat layer = cv::Mat::zeros(img.size(), CV_32FC4);
+
+        for(int i = 0; i < _figures.size(); i++) _figures[i]->draw(layer);
+
+        __overlay(img, layer);
+        layer.release();
     }
 
     // img: BGR float

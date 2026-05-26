@@ -21,6 +21,4 @@
 #00:00:00    00:00:03    time        2026-04-30 01:00:00 +0900
 #00:00:00    00:00:02    constLine   all 0.8   linear
 
-00:00:00    00:00:00    add         line av-bl AlpVir BetLeo
-00:00:00    00:00:00    intensity   av-bl 1
-00:00:00    00:00:02    progress    av-bl 1
+00:00:00    00:00:02    add         line av-bl AlpVir BetLeo 0.5

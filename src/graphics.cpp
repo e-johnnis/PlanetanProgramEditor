@@ -306,15 +306,19 @@ namespace ppe {
             char figtype[16] { '\0' };
             char tag[PPE_FIGURE_TAG_MAX] { '\0' };
             char figparams[PPE_CHAR_MAX] { '\0' };
+            float initLevel = 0;
             if(std::sscanf(arg, "%s %s %[^\n]", figtype, tag, figparams) < 3) return ERROR_INVALID_FORMAT;
             if(!std::strcmp(figtype, "line")) {
                 int startIdx = -1, endIdx = -1;
                 char star1[PPE_STAR_NAME_MAX];
                 char star2[PPE_STAR_NAME_MAX];
-                if(std::sscanf(figparams, "%s %s", star1, star2) < 2) return ERROR_INVALID_FORMAT;
+                if(std::sscanf(figparams, "%s %s %f", star1, star2, &initLevel) < 2) return ERROR_INVALID_FORMAT;
                 if((startIdx = __findStarIdx(star1)) < 0) return ERROR_INVALID_VALUE;
                 if((endIdx = __findStarIdx(star2)) < 0) return ERROR_INVALID_VALUE;
-                _figures.push_back(new Line(tag, &_stars[startIdx], &_stars[endIdx]));
+                Line* nline = new Line(tag, &_stars[startIdx], &_stars[endIdx]);
+                _figures.push_back(nline);
+                _events.push_back(new ChangeValueEvent<float>(start, start, &(nline->level), initLevel, CHANGE_LINEAR));
+                _events.push_back(new ChangeValueEvent<float>(start, end, &(nline->progress), 1.0, CHANGE_LINEAR));
             }
 
         }else if(!std::strcmp(ename, "progress")) {

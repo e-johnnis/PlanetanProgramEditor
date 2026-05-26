@@ -64,6 +64,7 @@ namespace ppe {
         void __renderStars(cv::Mat&) const;
         void __renderConstLines(cv::Mat&) const;
         void __renderGrids(cv::Mat&, const cv::Mat&, const cv::Mat&, const cv::Mat&) const;
+        void __renderFigures(cv::Mat&) const;
         void __renderSky(cv::Mat&, const cv::Mat&) const;
 
         GraphicsConfig _config = {};
