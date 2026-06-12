@@ -1,5 +1,5 @@
 # Planetan: Program Editor
-Tool for create planetarium-like video program
+Tool to create planetarium-like video program
 
 ## Install
 1. Install dependencies
