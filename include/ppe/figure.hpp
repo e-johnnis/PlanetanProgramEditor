@@ -13,6 +13,8 @@ namespace ppe {
         virtual ~Figure() {};
 
         int cmptag(const char*);
+
+        // img: BGRA float
         virtual void draw(cv::Mat&) = 0;
 
         float level = 0;
@@ -32,10 +34,10 @@ namespace ppe {
         const Star* _end = NULL;
     };
 
-    class SCircle : public Figure {
+    class Circle : public Figure {
     public:
-        SCircle(const char*, const Star*, int);
-        ~SCircle() override {};
+        Circle(const char*, const Star*, int);
+        ~Circle() override {};
 
         void draw(cv::Mat&) override;
     protected:

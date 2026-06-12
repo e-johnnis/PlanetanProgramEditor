@@ -27,4 +27,16 @@ namespace ppe {
 
         cv::line(img, cv::Point((int)vs[0], (int)vs[1]), cv::Point((int)vp[0], (int)vp[1]), clcol, 1);
     }
+
+    Circle::Circle(const char* tag, const Star* target, int radius) : Figure(tag) {
+        _target = target;
+        _radius = radius;
+    }
+
+    void Circle::draw(cv::Mat& img) {
+        if(level <= 0 || progress <= 0) return;
+        cv::Scalar cccol(0.4, 0.8, 1.0, level);
+
+        cv::ellipse(img, cv::Point(_target->x, _target->y), cv::Size(_radius, _radius), 270, 0, 360 * progress, cccol, 1);
+    }
 };

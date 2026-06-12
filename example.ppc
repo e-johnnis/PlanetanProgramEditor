@@ -1,5 +1,5 @@
 # video endtime must be configured
-00:00:00    00:00:03    video
+00:00:00    00:00:05    video
 
 # initial configures
 00:00:00    00:00:00    time        2026-04-30 00:00:00 +0900
@@ -22,3 +22,5 @@
 #00:00:00    00:00:02    constLine   all 0.8   linear
 
 00:00:00    00:00:02    add         line av-bl AlpVir BetLeo 0.5
+00:00:02    00:00:03    add         circle cl-bl BetLeo 10 0.5
+00:00:03    00:00:04    intensity   av-bl 0

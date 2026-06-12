@@ -319,6 +319,16 @@ namespace ppe {
                 _figures.push_back(nline);
                 _events.push_back(new ChangeValueEvent<float>(start, start, &(nline->level), initLevel, CHANGE_LINEAR));
                 _events.push_back(new ChangeValueEvent<float>(start, end, &(nline->progress), 1.0, CHANGE_LINEAR));
+            }else if(!std::strcmp(figtype, "circle")) {
+                int targidx = -1;
+                int cradius = 10;
+                char tstar[PPE_STAR_NAME_MAX];
+                if(std::sscanf(figparams, "%s %d %f", tstar, &cradius, &initLevel) < 1) return ERROR_INVALID_FORMAT;
+                if((targidx = __findStarIdx(tstar)) < 0) return ERROR_INVALID_VALUE;
+                Circle* ncirc = new Circle(tag, &_stars[targidx], cradius);
+                _figures.push_back(ncirc);
+                _events.push_back(new ChangeValueEvent<float>(start, start, &(ncirc->level), initLevel, CHANGE_LINEAR));
+                _events.push_back(new ChangeValueEvent<float>(start, end, &(ncirc->progress), 1.0, CHANGE_LINEAR));
             }
 
         }else if(!std::strcmp(ename, "progress")) {
