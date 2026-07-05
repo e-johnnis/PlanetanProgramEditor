@@ -16,6 +16,6 @@ Tool to create planetarium-like video program
    ```
 3. (optional) Alias command
    ``` bash
-   echo "alias ppe ~/.local/bin/planetanprogrameditor" >> ~/.bashrc
+   echo "alias ppe=~/.local/bin/planetanprogrameditor" >> ~/.bashrc
    source ~/.bashrc
    ```
