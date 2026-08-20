@@ -24,4 +24,4 @@ install:
 	cp -u build/ppe $(INSTALL_DIR)/.
 
 clean:
-	rm -rf obj/* debug/* build/*
+	rm -rf debug/* build/*
