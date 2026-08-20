@@ -11,7 +11,7 @@ SRCS=src/main.cpp src/graphics.cpp src/graphics-render.cpp src/figure.cpp src/ev
 
 build:
 	mkdir -p build
-	$(CXX) $(CFLAGS) $(INCLUDES) -o build/ppe $(SRCS) $(LIBS)
+	$(CXX) $(CFLAGS) -DRESOURCE_DIR="$(RESOURCE_DIR)" $(INCLUDES) -o build/ppe $(SRCS) $(LIBS)
 
 debug:
 	mkdir -p debug
