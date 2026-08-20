@@ -3,13 +3,17 @@
 #include<cstdlib>
 #include<time.h>
 
+#ifndef RESOURCE_DIR
+#define RESOURCE_DIR "/usr/share"
+#endif
+
 namespace ppe {
 
     void getResourcePath(char* dir, const char* fileName) {
         #ifdef DEBUG
             std::sprintf(dir, "./resources/%s", fileName);
         #else
-            std::sprintf(dir, "%s/.local/share/planetan/%s", getenv("HOME"), fileName);
+            std::sprintf(dir, "%s/%s", RESOURCE_DIR, fileName);
         #endif
     }
 

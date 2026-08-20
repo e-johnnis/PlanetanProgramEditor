@@ -1,5 +1,6 @@
 CXX:=g++
-INSTALL_DIR:=${HOME}/.local/bin
+INSTALL_DIR:=/usr/bin
+RESOURCE_DIR:=/usr/share
 
 CFLAGS=-std=c++17 -fopenmp
 INCLUDES=-I./include -I/usr/include -I/usr/include/opencv4 -I/include
@@ -10,6 +11,7 @@ SRCS=src/main.cpp src/graphics.cpp src/graphics-render.cpp src/figure.cpp src/ev
 
 build:
 	mkdir -p build
+	$(CXX) $(CFLAGS) $(INCLUDES) -o build/ppe $(SRCS) $(LIBS)
 
 debug:
 	mkdir -p debug
@@ -17,7 +19,9 @@ debug:
 	./debug/ppe-debug -v -o ./debug/debug-result.avi example.ppc
 
 install:
-	mkdir -p ${HOME}/.local ${HOME}/.local/share/planetan $(INSTALL_DIR)
+	mkdir -p $(RESOURCE_DIR)/planetan
+	cp -u resources/* $(RESOURCE_DIR)/planetan/.
+	cp -u build/ppe $(INSTALL_DIR)/.
 
 clean:
 	rm -rf obj/* debug/* build/*

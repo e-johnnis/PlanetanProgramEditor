@@ -2,20 +2,16 @@
 Tool to create planetarium-like video program
 
 ## Install
-1. Install dependencies
-   ``` bash
-   sudo apt install libopencv-dev ffmpeg
-   ```
-   
-2. Clone, build and install repository
-   ``` bash
-   git clone e-johnnis/PlanetanProgramEditor.git
-   cd PlanetanProgramEditor
-   make
-   make install
-   ```
-3. (optional) Alias command
-   ``` bash
-   echo "alias ppe=~/.local/bin/planetanprogrameditor" >> ~/.bashrc
-   source ~/.bashrc
-   ```
+``` bash
+# install tools
+sudo apt install git g++
+
+# install dependencies
+sudo apt install libopencv-dev
+
+# clone, build and install repository
+git clone https://github.com/e-johnnis/PlanetanProgramEditor
+cd PlanetanProgramEditor
+make
+make install
+```
