@@ -15,6 +15,7 @@ namespace ppe {
         int width = 1920;
         int height = 1080;
         double fps = 30;
+        int bitrate = 9000000;
     };
 
     struct SimulationStatus {

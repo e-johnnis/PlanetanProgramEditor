@@ -16,7 +16,7 @@ build:
 debug:
 	mkdir -p debug
 	$(CXX) $(CFLAGS) -g -DDEBUG $(INCLUDES) -o debug/ppe-debug $(SRCS) $(LIBS)
-	./debug/ppe-debug -v -o ./debug/debug-result.avi example.ppc
+	./debug/ppe-debug -v -o ./debug/debug-result.mkv example.ppc
 
 install:
 	mkdir -p $(RESOURCE_DIR)/planetan

@@ -6,6 +6,7 @@
 namespace ppe {
 
     Graphics::Graphics(const GraphicsConfig* config) {
+        char gstPipe[PPE_CHAR_MAX];
         _config = *config;
         _imagePixels = _config.width * _config.height;
 
@@ -28,8 +29,9 @@ namespace ppe {
         }
         #endif
 
+        std::sprintf(gstPipe, "appsrc ! videoconvert ! vp9enc target-bitrate=%d ! matroskamux ! filesink location=%s", _config.bitrate, _config.outputFileName);
         _videoWriter.open(
-            _config.outputFileName, cv::CAP_FFMPEG, cv::VideoWriter::fourcc('F', 'F', 'V', '1'),
+            gstPipe, cv::CAP_GSTREAMER, 0,
             _config.fps, cv::Size(_config.width, _config.height)
         );
     }

@@ -5,7 +5,7 @@
 #include<ctime>
 #include<unistd.h>
 
-#define DEFAULT_FILENAME "ppe-result.avi"
+#define DEFAULT_FILENAME "ppe-result.mkv"
 
 void showHelp();
 
@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
     config.width = 0;
 
     int copt = -1;
-    while((copt = getopt(argc, argv, "hvo:f:p:w:")) != -1) {
+    while((copt = getopt(argc, argv, "hvo:f:p:w:b:")) != -1) {
         switch(copt) {
             case 'h':
                 showHelp();
@@ -51,6 +51,11 @@ int main(int argc, char** argv) {
                     return -1;
                 }
                 break;
+            case 'b':
+                if(!std::sscanf(optarg, "%d", &config.bitrate)) {
+                    std::fprintf(stderr, "[!] invalid value for bitrate: %s\n", optarg);
+                    return -1;
+                }
             case '?':
                 std::fprintf(stderr, "[!] unknown key '%c'. see help (\"ppe -h\" to show).\n", optopt);
                 return -1;
@@ -76,6 +81,7 @@ int main(int argc, char** argv) {
         std::printf("  inputFileName  : %s\n", config.inputFileName);
         std::printf("  outputFileName : %s\n", config.outputFileName);
         std::printf("  video size     : %dx%d, %5.2ffps\n", config.width, config.height, config.fps);
+        std::printf("  bitrate        : %d\n", config.bitrate);
         std::printf("\n");
     }
 
@@ -142,8 +148,9 @@ void showHelp() {
     std::printf("*** options ***\n");
     std::printf("-o [string] : set output file name (default=%s)\n", DEFAULT_FILENAME);
     std::printf("-f [float]  : set video fps (default=30)\n");
-    std::printf("-p [int]    : set video height (default=1080)");
-    std::printf("-w [int]    : set video width (default=height*16/9)");
+    std::printf("-p [int]    : set video height (default=1080)\n");
+    std::printf("-w [int]    : set video width (default=height*16/9)\n");
+    std::printf("-b [int]    : set bitrate (default=9000000)\n");
     std::printf("-v          : show verbose while exporting\n");
     std::printf("-h          : show help and exit\n");
 }
