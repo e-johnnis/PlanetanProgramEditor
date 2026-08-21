@@ -6,7 +6,7 @@
 namespace ppe {
 
     Graphics::Graphics(const GraphicsConfig* config) {
-        char gstPipe[PPE_CHAR_MAX];
+        char gstPipe[512];
         _config = *config;
         _imagePixels = _config.width * _config.height;
 

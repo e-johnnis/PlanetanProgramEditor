@@ -4,10 +4,10 @@
 #ifdef DEBUG
     #define PPE_VERSION_STR "*** Planetan: Program Editor DEBUG ***"
 #else
-    #define PPE_VERSION_STR "*** Planetan: Program Editor v0.0.0.0 ***"
+    #define PPE_VERSION_STR "*** Planetan: Program Editor v0.1.0.0 ***"
 #endif
 
-#define PPE_CHAR_MAX 256
+#define PPE_CHAR_MAX 128
 
 // unix time of 2000-01-01 00:00:00 +0000
 #define TIME_EPOCH 946684800
