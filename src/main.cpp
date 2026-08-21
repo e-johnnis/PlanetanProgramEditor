@@ -11,13 +11,14 @@ void showHelp();
 
 int main(int argc, char** argv) {
     ppe::GraphicsConfig config = {};
+    config.audioFileName[0] = '\0';
     int verbose = 0;
 
     std::sprintf(config.outputFileName, DEFAULT_FILENAME);
     config.width = 0;
 
     int copt = -1;
-    while((copt = getopt(argc, argv, "hvo:f:p:w:b:")) != -1) {
+    while((copt = getopt(argc, argv, "hvo:f:p:w:b:a:")) != -1) {
         switch(copt) {
             case 'h':
                 showHelp();
@@ -56,6 +57,15 @@ int main(int argc, char** argv) {
                     std::fprintf(stderr, "[!] invalid value for bitrate: %s\n", optarg);
                     return -1;
                 }
+                break;
+            case 'a':
+                if(strlen(optarg) >= PPE_CHAR_MAX) {
+                    std::fprintf(stderr, "[!] too long audio file name. must be less than %d chars.\n", PPE_CHAR_MAX);
+                    return -1;
+                }else {
+                    std::strcpy(config.audioFileName, optarg);
+                }
+                break;
             case '?':
                 std::fprintf(stderr, "[!] unknown key '%c'. see help (\"ppe -h\" to show).\n", optopt);
                 return -1;
@@ -80,6 +90,7 @@ int main(int argc, char** argv) {
         std::printf("settings:\n");
         std::printf("  inputFileName  : %s\n", config.inputFileName);
         std::printf("  outputFileName : %s\n", config.outputFileName);
+        std::printf("  audioFileName  : %s\n", config.audioFileName);
         std::printf("  video size     : %dx%d, %5.2ffps\n", config.width, config.height, config.fps);
         std::printf("  bitrate        : %d\n", config.bitrate);
         std::printf("\n");
@@ -91,15 +102,18 @@ int main(int argc, char** argv) {
 
     if((err = graphics.loadStars())) {
         std::fprintf(stderr, "[!] failed to load star data: %s\n", ppe::errorString(err));
+        graphics.release();
         return -3;
     }
     if((err = graphics.loadConsts())) {
         std::fprintf(stderr, "[!] failed to load constellation line data: %s\n", ppe::errorString(err));
+        graphics.release();
         return -3;
     }
     
     if((err = graphics.loadEvents(&nline, &nevent))) {
         std::fprintf(stderr, "[!] error in line %d: %s\n", nline, ppe::errorString(err));
+        graphics.release();
         return -4;
     }
 
@@ -151,6 +165,7 @@ void showHelp() {
     std::printf("-p [int]    : set video height (default=1080)\n");
     std::printf("-w [int]    : set video width (default=height*16/9)\n");
     std::printf("-b [int]    : set bitrate (default=9000000)\n");
+    std::printf("-a [string] : add audio file (.wav)\n");
     std::printf("-v          : show verbose while exporting\n");
     std::printf("-h          : show help and exit\n");
 }

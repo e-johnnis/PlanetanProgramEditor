@@ -12,6 +12,7 @@ namespace ppe {
     struct GraphicsConfig {
         char inputFileName[PPE_CHAR_MAX];
         char outputFileName[PPE_CHAR_MAX];
+        char audioFileName[PPE_CHAR_MAX];
         int width = 1920;
         int height = 1080;
         double fps = 30;

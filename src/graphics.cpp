@@ -29,7 +29,15 @@ namespace ppe {
         }
         #endif
 
-        std::sprintf(gstPipe, "appsrc ! videoconvert ! vp9enc target-bitrate=%d ! matroskamux ! filesink location=%s", _config.bitrate, _config.outputFileName);
+        if(std::strlen(_config.audioFileName)) {
+            std::sprintf(
+                gstPipe,
+                "appsrc ! videoconvert ! vp9enc target-bitrate=%d ! queue ! mux.  filesrc location=%s ! queue ! wavparse ! audioconvert ! vorbisenc quality=0.5 ! matroskamux name=mux ! filesink location=%s",
+                _config.bitrate, _config.audioFileName, _config.outputFileName
+            );
+        }else {
+            std::sprintf(gstPipe, "appsrc ! videoconvert ! vp9enc target-bitrate=%d ! matroskamux ! filesink location=%s", _config.bitrate, _config.outputFileName);
+        }
         _videoWriter.open(
             gstPipe, cv::CAP_GSTREAMER, 0,
             _config.fps, cv::Size(_config.width, _config.height)
