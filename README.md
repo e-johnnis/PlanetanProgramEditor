@@ -4,9 +4,9 @@ Tool to create planetarium-like video program
 ## Install
 ``` bash
 # install tools
-sudo apt install git g++
+sudo apt install git make g++
 
-# install dependencies
+# install dependency
 sudo apt install libopencv-dev
 
 # clone, build and install repository
